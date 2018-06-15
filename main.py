@@ -60,7 +60,7 @@ class Address(Base):
     email_address = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
 
-    user = relationship('User', back_populates='addresses')
+    user = relationship('User', back_populates='addresses', cascade="all, delete, delete-orphan")
 
     def __repr__(self):
         return "<Address(email_address='{}'>".format(self.email_address)

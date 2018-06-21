@@ -151,3 +151,40 @@ session.query(func.count(distinct(User.name)))
 person = session.query(Person.name, Person.created_at,                     
              Person.updated_at).filter_by(name="zhongwei").order_by(            
              Person.created_at).first()
+
+stmt = select([users_table]).where(and_(users_table.c.name == 'wendy, users_table.c.entrolled == True))
+stmt = select([users_table]).where((users_table.c.name == 'wendy) && (users_table.c.entrolled == True))
+                                        
+stmt = (users_table.update().
+        where(user_table.c.name == bindparam('username')).
+        values(fullname=bindparam('fullname'))
+        )
+
+connection.execute(
+    stmt, [{"username": "wendy", "fullname": "Wendy Smith"},
+           {"username": "jack", "fullname": "Jack Jones"},
+           ]
+)
+                 
+stmt = select([users_table]).where(users_table.c.name == 'Wendy')
+result = connection.execute(stmt)
+                                   
+from sqlalchemy import funcfilter
+funcfilter(func.count(1), MyClass.name == 'some name')
+select([func.count(table.c.id)])
+stmt = select([func.count(SourceFuncTable.device_id)])
+for result in self._session.execute(stmt):
+    print(result.items())
+
+from sqlalchemy import text
+# bind parameters by name
+t = text("SELECT * FROM users WHERE id=:user_id")
+result = connection.execute(t, user_id=12)
+t = text("SELECT * FROM users WHERE id=:user_id").bindparams(user_id=7).columns(id=Integer, name=String)
+for id, name in connection.execute(t):
+    print(id, name)
+    
+# LIKE
+stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.contains('test'))
+stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.startswith('test'))
+print(stmt)

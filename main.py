@@ -188,3 +188,8 @@ for id, name in connection.execute(t):
 stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.contains('test'))
 stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.startswith('test'))
 print(stmt)
+
+connection.execute(address.insert(), [
+    {'user_id': 1, 'email_address': 'jack@qq.com'},
+    {'user_id': 2, 'email_address': 'jack@yahoo.com'}
+                                    

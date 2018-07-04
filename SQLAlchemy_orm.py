@@ -38,6 +38,41 @@ session.add_all([
     User(name='mary', fullname='Mary Contrary', password='xxg527'),
     User(name='fred', fullname='Fred Flinstone', password='blah')])
 
+#增
+    #sql1 = User(id=1,name="haha")
+    #sql2 = User(id=2,name="hehe")
+    #session.add(sql1)
+    #session.add_all([sql1, sql2])
+    #session.commit()
+
+    #改
+    #session.query(User).filter(User.id >1).update({"name":"xixi"})
+    #session.commit()
+
+    #删
+    #session.query(User).filter(User.id == 1).delete()
+    #session.commit()
+
+    #查
+    r1 = session.query(User).filter_by(name="xixi").first()
+
+    r2 = session.query(User).filter_by(name="xixi").all()
+
+    r3 = session.query(User).filter(User.name.in_(["haha", "hehe", "xixi"])).all()
+
+    r4 = session.query(User.name.label("name_label")).all()
+    #SELECT users.name AS name_label FROM users
+
+
+    r5 = session.query(User).order_by(User.id).all()
+    #SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
+
+    r6 = session.query(User).order_by(User.id)[1:2]
+    #SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
+
+
+    print(r1, r2, r3, r4, r5, r6)
+    session.commit(
 ed_user.password = 'f805'
 
 session.commit()
@@ -192,4 +227,36 @@ print(stmt)
 connection.execute(address.insert(), [
     {'user_id': 1, 'email_address': 'jack@qq.com'},
     {'user_id': 2, 'email_address': 'jack@yahoo.com'}
-                                    
+                     
+   
+#增
+#sql1 = User(id=1,name="haha")
+#sql2 = User(id=2,name="hehe")
+#session.add(sql1)
+#session.add_all([sql1, sql2])
+#session.commit()
+
+#改
+#session.query(User).filter(User.id >1).update({"name":"xixi"})
+#session.commit()
+
+#删
+#session.query(User).filter(User.id == 1).delete()
+#session.commit()
+
+#查
+r1 = session.query(User).filter_by(name="xixi").first()
+
+r2 = session.query(User).filter_by(name="xixi").all()
+
+r3 = session.query(User).filter(User.name.in_(["haha", "hehe", "xixi"])).all()
+r4 = session.query(User.name.label("name_label")).all()
+#SELECT users.name AS name_label FROM users
+
+r5 = session.query(User).order_by(User.id).all()
+#SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
+
+r6 = session.query(User).order_by(User.id)[1:2]
+#SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
+print(r1, r2, r3, r4, r5, r6)
+session.commit()

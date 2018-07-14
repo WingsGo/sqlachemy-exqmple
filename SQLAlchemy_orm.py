@@ -38,42 +38,36 @@ session.add_all([
     User(name='mary', fullname='Mary Contrary', password='xxg527'),
     User(name='fred', fullname='Fred Flinstone', password='blah')])
 
-#增
-    #sql1 = User(id=1,name="haha")
-    #sql2 = User(id=2,name="hehe")
-    #session.add(sql1)
-    #session.add_all([sql1, sql2])
-    #session.commit()
+# 增
+# sql1 = User(id=1,name="haha")
+# sql2 = User(id=2,name="hehe")
+# session.add(sql1)
+# session.add_all([sql1, sql2])
+# session.commit()
 
-    #改
-    #session.query(User).filter(User.id >1).update({"name":"xixi"})
-    #session.commit()
+# 改
+# session.query(User).filter(User.id >1).update({"name":"xixi"})
+# session.commit()
 
-    #删
-    #session.query(User).filter(User.id == 1).delete()
-    #session.commit()
+# 删
+# session.query(User).filter(User.id == 1).delete()
+# session.commit()
 
-    #查
-    r1 = session.query(User).filter_by(name="xixi").first()
-
-    r2 = session.query(User).filter_by(name="xixi").all()
-
-    r3 = session.query(User).filter(User.name.in_(["haha", "hehe", "xixi"])).all()
-
-    r4 = session.query(User.name.label("name_label")).all()
-    #SELECT users.name AS name_label FROM users
-
-
-    r5 = session.query(User).order_by(User.id).all()
-    #SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
-
-    r6 = session.query(User).order_by(User.id)[1:2]
-    #SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
+# 查
+r1 = session.query(User).filter_by(name="xixi").first()
+r2 = session.query(User).filter_by(name="xixi").all()
+r3 = session.query(User).filter(User.name.in_(["haha", "hehe", "xixi"])).all()
+r4 = session.query(User.name.label("name_label")).all()
+# SELECT users.name AS name_label FROM users
+r5 = session.query(User).order_by(User.id).all()
+# SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
+r6 = session.query(User).order_by(User.id)[1:2]
+# SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
 
 
-    print(r1, r2, r3, r4, r5, r6)
-    session.commit(
-ed_user.password = 'f805'
+print(r1, r2, r3, r4, r5, r6)
+session.commit(
+    ed_user.password = 'f805'
 
 session.commit()
 
@@ -130,8 +124,7 @@ session.query.join(User.addresses)  # specify relationship from left to right
 session.query.join(Address, User.addresses)  # same, with explicit target
 session.query.join('addresses')  # same, using a string
 
-
-#简单查询
+# 简单查询
 print(session.query(User).all())
 print(session.query(User.name, User.fullname).all())
 print(conn.execute(s, x='m', y='z', e1='%@aol.com', e2='%@msn.com').fetchall())
@@ -166,7 +159,7 @@ print(session.query(User, stmt.c.address_count).outerjoin((stmt, User.id == stmt
 print(session.query(User).filter(exists().where(Address.user_id == User.id)))
 print(session.query(User).filter(User.addresses.any()))
 
-from sqlalchemy import func   
+from sqlalchemy import func
 
 # count User records, without
 # using a subquery.
@@ -174,37 +167,37 @@ session.query(func.count(User.id))
 
 # return count of user "id" grouped
 # by "name"
-session.query(func.count(User.id)).\
-        group_by(User.name)
+session.query(func.count(User.id)). \
+    group_by(User.name)
 
 from sqlalchemy import distinct
 
 # count distinct "name" values
 session.query(func.count(distinct(User.name)))
 
-
-person = session.query(Person.name, Person.created_at,                     
-             Person.updated_at).filter_by(name="zhongwei").order_by(            
-             Person.created_at).first()
+person = session.query(Person.name, Person.created_at,
+                       Person.updated_at).filter_by(name="zhongwei").order_by(
+    Person.created_at).first()
 
 stmt = select([users_table]).where(and_(users_table.c.name == 'wendy, users_table.c.entrolled == True))
 stmt = select([users_table]).where((users_table.c.name == 'wendy) && (users_table.c.entrolled == True))
-                                        
-stmt = (users_table.update().
-        where(user_table.c.name == bindparam('username')).
-        values(fullname=bindparam('fullname'))
-        )
+
+                                    stmt = (users_table.update().
+                                   where(user_table.c.name == bindparam('username')).
+                                   values(fullname=bindparam('fullname'))
+                                   )
 
 connection.execute(
     stmt, [{"username": "wendy", "fullname": "Wendy Smith"},
            {"username": "jack", "fullname": "Jack Jones"},
            ]
 )
-                 
+
 stmt = select([users_table]).where(users_table.c.name == 'Wendy')
 result = connection.execute(stmt)
-                                   
+
 from sqlalchemy import funcfilter
+
 funcfilter(func.count(1), MyClass.name == 'some name')
 select([func.count(table.c.id)])
 stmt = select([func.count(SourceFuncTable.device_id)])
@@ -212,13 +205,14 @@ for result in self._session.execute(stmt):
     print(result.items())
 
 from sqlalchemy import text
+
 # bind parameters by name
 t = text("SELECT * FROM users WHERE id=:user_id")
 result = connection.execute(t, user_id=12)
 t = text("SELECT * FROM users WHERE id=:user_id").bindparams(user_id=7).columns(id=Integer, name=String)
 for id, name in connection.execute(t):
     print(id, name)
-    
+
 # LIKE
 stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.contains('test'))
 stmt = select([SourceFuncTable]).where(SourceFuncTable.type_.startswith('test'))
@@ -227,36 +221,36 @@ print(stmt)
 connection.execute(address.insert(), [
     {'user_id': 1, 'email_address': 'jack@qq.com'},
     {'user_id': 2, 'email_address': 'jack@yahoo.com'}
-                     
-   
-#增
-#sql1 = User(id=1,name="haha")
-#sql2 = User(id=2,name="hehe")
-#session.add(sql1)
-#session.add_all([sql1, sql2])
-#session.commit()
 
-#改
-#session.query(User).filter(User.id >1).update({"name":"xixi"})
-#session.commit()
 
-#删
-#session.query(User).filter(User.id == 1).delete()
-#session.commit()
+    # 增
+    # sql1 = User(id=1,name="haha")
+    # sql2 = User(id=2,name="hehe")
+    # session.add(sql1)
+    # session.add_all([sql1, sql2])
+    # session.commit()
 
-#查
-r1 = session.query(User).filter_by(name="xixi").first()
+    # 改
+    # session.query(User).filter(User.id >1).update({"name":"xixi"})
+    # session.commit()
+
+    # 删
+    # session.query(User).filter(User.id == 1).delete()
+    # session.commit()
+
+    # 查
+    r1 = session.query(User).filter_by(name="xixi").first()
 
 r2 = session.query(User).filter_by(name="xixi").all()
 
 r3 = session.query(User).filter(User.name.in_(["haha", "hehe", "xixi"])).all()
 r4 = session.query(User.name.label("name_label")).all()
-#SELECT users.name AS name_label FROM users
+# SELECT users.name AS name_label FROM users
 
 r5 = session.query(User).order_by(User.id).all()
-#SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
+# SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id
 
 r6 = session.query(User).order_by(User.id)[1:2]
-#SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
+# SELECT users.id AS users_id, users.name AS users_name FROM users ORDER BY users.id LIMIT 1,2
 print(r1, r2, r3, r4, r5, r6)
 session.commit()
